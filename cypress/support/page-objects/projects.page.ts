@@ -4,18 +4,18 @@ export class ProjectsPage {
   }
 
   clickCreateButton() {
-    cy.get("button, div[role='button']", { timeout: 4000 }).contains(/create|new|add/i).click();
+    cy.get('button, [role="button"], div[role="button"], a[role="button"], [class*="btn"]', { timeout: 4000 }).contains(/create|new|add/i).click();
   }
 
   fillProjectForm(name: string, description?: string) {
-    cy.get("input[type='text'], input[placeholder*='name']", { timeout: 4000 }).first().clear().type(name);
+    cy.get('input[type="text"], input[placeholder*="name"], input[placeholder*="title"], input[aria-label*="name"]', { timeout: 4000 }).first().clear().type(name);
     if (description) {
-      cy.get("textarea, [contenteditable='true'], [role='textbox']", { timeout: 4000 }).first().clear().type(description);
+      cy.get('textarea, [contenteditable="true"], [role="textbox"], input[type="text"][placeholder*="description"], input[type="text"][placeholder*="details"]', { timeout: 4000 }).first().clear().type(description);
     }
   }
 
   clickSaveButton() {
-    cy.get("button, div[role='button']", { timeout: 4000 }).contains(/save|submit/i).click();
+    cy.get('button, [role="button"], div[role="button"], a[role="button"], [class*="btn"]', { timeout: 4000 }).contains(/save|submit|create/i).click();
   }
 
   createProject(name: string, description?: string) {
@@ -25,7 +25,7 @@ export class ProjectsPage {
   }
 
   getProjectsList() {
-    return cy.get(".project-item, [role='row'], li, div[class*='project']", { timeout: 4000 });
+    return cy.get('.project-item, [role="row"], li, div[class*="project"], [class*="item"], tbody tr', { timeout: 4000 });
   }
 
   verifyProjectListDisplayed() {
@@ -33,7 +33,7 @@ export class ProjectsPage {
   }
 
   clickEditButton() {
-    cy.get("button, div[role='button']", { timeout: 4000 }).contains(/edit/i).first().click();
+    cy.get('button, [role="button"], div[role="button"], a[role="button"], [class*="btn"], span', { timeout: 4000 }).contains(/edit|update|modify/i).first().click();
   }
 
   editProject(name: string, description?: string) {
@@ -43,11 +43,11 @@ export class ProjectsPage {
   }
 
   clickDeleteButton() {
-    cy.get("button, div[role='button']", { timeout: 4000 }).contains(/delete/i).click();
+    cy.get('button, [role="button"], div[role="button"], a[role="button"], [class*="btn"]', { timeout: 4000 }).contains(/delete|remove|trash/i).click();
   }
 
   confirmDelete() {
-    cy.get("button, div[role='button']", { timeout: 4000 }).contains(/confirm|delete|yes/i).click();
+    cy.get('button, [role="button"], div[role="button"], a[role="button"], [class*="btn"]', { timeout: 4000 }).contains(/confirm|delete|yes/i).click();
   }
 
   deleteProject() {
@@ -60,10 +60,10 @@ export class ProjectsPage {
   }
 
   clickMoveUp() {
-    cy.get("button, div[role='button']", { timeout: 4000 }).contains(/up|move up|▲/i).click();
+    cy.get('button, [role="button"], div[role="button"], a[role="button"], [class*="btn"], span', { timeout: 4000 }).contains(/up|move up|▲|^\s*↑|^\s*⬆/i).click();
   }
 
   clickMoveDown() {
-    cy.get("button, div[role='button']", { timeout: 4000 }).contains(/down|move down|▼/i).click();
+    cy.get('button, [role="button"], div[role="button"], a[role="button"], [class*="btn"], span', { timeout: 4000 }).contains(/down|move down|▼|^\s*↓|^\s*⬇/i).click();
   }
 }

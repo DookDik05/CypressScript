@@ -22,11 +22,32 @@ export default defineConfig({
       // Add tasks to write files
       on("task", {
         writeFile({ path, content }: { path: string; content: string }) {
+          if (!content) {
+            console.warn(`Warning: Empty content for file ${path}`);
+            return null;
+          }
           fs.writeFileSync(path, content);
           return null;
         },
-        // แก้ไขส่วนนี้ใน cypress.config.ts
-        writePageHTML({ filename, html }: { filename: string; html: string }) {
+        writePageHTML(data: string | { filename: string; html: string }) {
+          let filename = "cypress/page-html.txt";
+          let html: string;
+          
+          // Handle both string and object parameters
+          if (typeof data === "string") {
+            html = data;
+          } else if (typeof data === "object" && data.html && data.filename) {
+            html = data.html;
+            filename = data.filename;
+          } else {
+            console.warn("Warning: Invalid writePageHTML parameter");
+            return null;
+          }
+          
+          if (!html) {
+            console.warn(`Warning: Empty HTML content for ${filename}`);
+            return null;
+          }
           fs.writeFileSync(filename, html);
           return null;
         }

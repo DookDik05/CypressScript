@@ -4,7 +4,7 @@ export class FeedbackPage {
   }
 
   fillFormField(fieldName: string, value: string) {
-    cy.get(`input[name='${fieldName}'], textarea[name='${fieldName}'], input[placeholder*='${fieldName}'], textarea[placeholder*='${fieldName}'], input[aria-label*='${fieldName}'], textarea[aria-label*='${fieldName}']`, { timeout: 4000 }).first().clear().type(value);
+    cy.get(`input[name="${fieldName}"], textarea[name="${fieldName}"], input[placeholder*="${fieldName}"], textarea[placeholder*="${fieldName}"], input[aria-label*="${fieldName}"], textarea[aria-label*="${fieldName}"], [data-testid="${fieldName}"], input[id*="${fieldName}"], textarea[id*="${fieldName}"]`, { timeout: 4000 }).first().clear().type(value);
   }
 
   fillFeedbackForm(name: string, email: string, message: string) {
@@ -14,7 +14,7 @@ export class FeedbackPage {
   }
 
   clickSubmitButton() {
-    cy.get("button", { timeout: 4000 }).contains(/submit|send|save/i).click();
+    cy.get('button, [role="button"], div[role="button"], a[role="button"], [class*="btn"]', { timeout: 4000 }).contains(/submit|send|save/i).click();
   }
 
   verifyFormSubmitted() {

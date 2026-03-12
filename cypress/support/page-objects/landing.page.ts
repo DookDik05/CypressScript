@@ -4,19 +4,19 @@ export class LandingPage {
   }
 
   verifyHeroSection() {
-    cy.get("body div, section, header", { timeout: 4000 }).should("be.visible");
+    cy.get('[role="main"], .hero, section, header, [class*="hero"], [class*="banner"]', { timeout: 4000 }).should("be.visible");
   }
 
   verifyLoginButton() {
-    cy.get("button, a", { timeout: 4000 }).should("be.visible");
+    cy.get('button, a, [role="button"], div[role="button"], [class*="btn"]', { timeout: 4000 }).should("be.visible");
   }
 
   verifyNewsSection() {
-    cy.get("body", { timeout: 4000 }).should("be.visible");
+    cy.get('[role="region"], .news, section[class*="news"], div[class*="news"], [class*="news-section"]', { timeout: 4000 }).should("be.visible");
   }
 
   getNewsList() {
-    return cy.get("a, li, div[role='article']", { timeout: 4000 });
+    return cy.get('a[href*="news"], li, div[role="article"], div[role="listitem"], [class*="news-item"], [class*="article"]', { timeout: 4000 });
   }
 
   clickNewsItem(index: number = 0) {
@@ -24,7 +24,7 @@ export class LandingPage {
   }
 
   verifyNewsDetail() {
-    cy.get("h1, h2, [role='heading']", { timeout: 4000 }).should("be.visible");
+    cy.get('h1, h2, [role="heading"], [class*="title"], [class*="heading"]', { timeout: 4000 }).should("be.visible");
   }
 
   verifyAllLandingElements() {
@@ -44,19 +44,23 @@ export class LandingPage {
   }
 
   visitNews() {
-    cy.get("a", { timeout: 4000 }).contains(/news/i).first().click();
+    cy.get("a, button, [role='button']", { timeout: 4000 }).contains(/news|updates|articles|blog/i).click();
   }
 
   verifyNewsListDisplayed() {
-    this.verifyNewsSection();
+    this.getNewsList().should("have.length.greaterThan", 0);
   }
 
   getNewsCount() {
-    return cy.get("a, li, div", { timeout: 4000 }).its("length");
+    return this.getNewsList().its("length");
   }
 
   clickFirstNews() {
-    cy.get("a, li, div", { timeout: 4000 }).first().click();
+    this.getNewsList().first().click();
+  }
+
+  verifyNewsDetailDisplayed() {
+    cy.get("body", { timeout: 4000 }).should("contain", /news|article|detail|content/i);
   }
 
   verifyNewsDetailUrl() {

@@ -4,7 +4,7 @@ export class NotificationsPage {
   }
 
   getNotificationsList() {
-    return cy.get(".notification-item, [role='listitem'], li, div[class*='notification']", { timeout: 4000 });
+    return cy.get('.notification-item, [role="listitem"], [role="article"], li, div[class*="notification"], [class*="notification-item"], div[class*="alert"]', { timeout: 4000 });
   }
 
   clickNotification(index: number = 0) {
@@ -12,15 +12,15 @@ export class NotificationsPage {
   }
 
   verifyNotificationsSorted() {
-    cy.get(".notification-item, [role='listitem'], li, div[class*='notification']", { timeout: 4000 }).should("have.length.greaterThan", 0);
+    this.getNotificationsList().should("have.length.greaterThan", 0);
   }
 
   markNotificationAsRead() {
-    cy.get("button, div[role='button']", { timeout: 4000 }).contains(/mark as read|read/i).click();
+    cy.get('button, [role="button"], div[role="button"], a[role="button"], [class*="btn"], span', { timeout: 4000 }).contains(/mark as read|read|seen/i).click();
   }
 
   verifyNotificationRead() {
-    cy.get(".unread, [aria-unread='true'], [class*='unread']", { timeout: 4000 }).should("not.exist");
+    cy.get('.unread, [aria-unread="true"], [class*="unread"], [class*="new"]', { timeout: 4000 }).should("not.exist");
   }
 
   getNotificationCount() {
