@@ -1,5 +1,5 @@
 export class FeedbackPage {
-  visitFeedbackForm(formId?: string) {
+  visitFeedbackForm() {
     cy.visit("/feedback");
   }
 

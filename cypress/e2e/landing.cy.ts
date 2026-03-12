@@ -32,7 +32,7 @@ describe("TC-LAND: Landing Page Tests", () => {
   describe("TC-LAND-002: เปิด News", () => {
     it("should display news list", () => {
       landingPage.visitNews();
-      landingPage.getNewsCount().then((count) => {
+      landingPage.getNewsCount().then((count: any) => {
         expect(count).to.be.greaterThan(0);
       });
     });

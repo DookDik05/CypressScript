@@ -33,7 +33,7 @@ describe("TC-PROD: Products Tests", () => {
   describe("TC-PROD-003: Search Product", () => {
     it("should filter products by search", () => {
       productsPage.searchProduct("test");
-      productsPage.getProductCount().then((count) => {
+      productsPage.getProductCount().then((count: any) => {
         expect(count).to.be.greaterThan(0);
       });
     });

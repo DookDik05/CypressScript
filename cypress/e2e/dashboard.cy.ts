@@ -19,19 +19,19 @@ describe("TC-DASH: Dashboard Tests", () => {
     });
 
     it("should display total projects", () => {
-      dashboardPage.getTotalProjects().then((projects) => {
+      dashboardPage.getTotalProjects().then((projects: any) => {
         expect(projects).to.exist;
       });
     });
 
     it("should display total tasks", () => {
-      dashboardPage.getTotalTasks().then((tasks) => {
+      dashboardPage.getTotalTasks().then((tasks: any) => {
         expect(tasks).to.exist;
       });
     });
 
     it("should display completed tasks", () => {
-      dashboardPage.getCompletedTasks().then((completed) => {
+      dashboardPage.getCompletedTasks().then((completed: any) => {
         expect(completed).to.exist;
       });
     });
