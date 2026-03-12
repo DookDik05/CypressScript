@@ -1,0 +1,45 @@
+{
+  "name": "cypresslearning",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "test": "cypress run --headless",
+    "test:open": "cypress open",
+    "test:headed": "cypress run --headed",
+    "test:chrome": "cypress run --browser chrome",
+    "test:firefox": "cypress run --browser firefox",
+    "test:auth": "cypress run --spec 'cypress/e2e/auth.cy.ts'",
+    "test:landing": "cypress run --spec 'cypress/e2e/landing.cy.ts'",
+    "test:dashboard": "cypress run --spec 'cypress/e2e/dashboard.cy.ts'",
+    "test:all-modules": "cypress run --spec 'cypress/e2e/*.cy.ts'",
+    "generate-report": "ts-node scripts/generate-report.ts",
+    "open-report": "start cypress/reports"
+  },
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.5",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "cypress": "^15.9.0",
+    "cypress-mochawesome-reporter": "^4.0.2",
+    "eslint": "^9.39.1",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "exceljs": "^4.4.0",
+    "globals": "^16.5.0",
+    "ts-node": "^10.9.0",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.46.4",
+    "vite": "^7.2.4"
+  }
+}
