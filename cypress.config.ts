@@ -25,17 +25,14 @@ export default defineConfig({
           fs.writeFileSync(path, content);
           return null;
         },
-        writePageHTML(html: string) {
-          fs.writeFileSync("cypress/page-html.txt", html);
+        // แก้ไขส่วนนี้ใน cypress.config.ts
+        writePageHTML({ filename, html }: { filename: string; html: string }) {
+          fs.writeFileSync(filename, html);
           return null;
         }
       });
     },
-    webpackConfig: {
-      resolve: {
-        extensions: [".ts", ".js"],
-      },
-    },
+    // Removed unsupported webpackConfig property
     env: {
       username: "staff@tlogical.com",
       // password: "Gangkia5@2541",

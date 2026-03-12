@@ -1,3 +1,5 @@
+// PageObjects is available globally from support/e2e.ts
+
 describe("TC-DASH: Dashboard Tests", () => {
   const loginPage = PageObjects.loginPage;
   const dashboardPage = PageObjects.dashboardPage;
