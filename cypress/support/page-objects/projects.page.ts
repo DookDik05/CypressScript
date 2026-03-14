@@ -1,69 +1,50 @@
 export class ProjectsPage {
   visitProjects() {
-    cy.visit("/projects");
-  }
-
-  clickCreateButton() {
-    cy.get('button, [role="button"], div[role="button"], a[role="button"], [class*="btn"]', { timeout: 4000 }).contains(/create|new|add/i).click();
-  }
-
-  fillProjectForm(name: string, description?: string) {
-    cy.get('input[type="text"], input[placeholder*="name"], input[placeholder*="title"], input[aria-label*="name"]', { timeout: 4000 }).first().clear().type(name);
-    if (description) {
-      cy.get('textarea, [contenteditable="true"], [role="textbox"], input[type="text"][placeholder*="description"], input[type="text"][placeholder*="details"]', { timeout: 4000 }).first().clear().type(description);
-    }
-  }
-
-  clickSaveButton() {
-    cy.get('button, [role="button"], div[role="button"], a[role="button"], [class*="btn"]', { timeout: 4000 }).contains(/save|submit|create/i).click();
-  }
-
-  createProject(name: string, description?: string) {
-    this.clickCreateButton();
-    this.fillProjectForm(name, description);
-    this.clickSaveButton();
+    cy.visit("/combined/app/projects");
   }
 
   getProjectsList() {
-    return cy.get('.project-item, [role="row"], li, div[class*="project"], [class*="item"], tbody tr', { timeout: 4000 });
+    return cy.get("div[class*='project'], li, [role='row'], tbody tr, article, [class*='card']", { timeout: 4000 });
   }
 
-  verifyProjectListDisplayed() {
-    this.getProjectsList().should("have.length.greaterThan", 0);
+  createProject(name: string) {
+    cy.get("button", { timeout: 4000 }).contains(/create|new|add/i).click();
+    cy.get("input", { timeout: 4000 }).first().type(name);
+    cy.get("button", { timeout: 4000 }).contains(/save|submit/i).click();
+  }
+
+  editProject(projectName: string, newName: string) {
+    this.getProjectsList().contains(projectName).click();
+    cy.get("button", { timeout: 4000 }).contains(/edit/i).click();
+    cy.get("input", { timeout: 4000 }).clear().type(newName);
+    cy.get("button", { timeout: 4000 }).contains(/save/i).click();
+  }
+
+  deleteProject(projectName: string) {
+    this.getProjectsList().contains(projectName).click();
+    cy.get("button", { timeout: 4000 }).contains(/delete|remove/i).click();
+    cy.get("button", { timeout: 4000 }).contains(/confirm|yes|delete/i).click();
   }
 
   clickEditButton() {
-    cy.get('button, [role="button"], div[role="button"], a[role="button"], [class*="btn"], span', { timeout: 4000 }).contains(/edit|update|modify/i).first().click();
-  }
-
-  editProject(name: string, description?: string) {
-    this.clickEditButton();
-    this.fillProjectForm(name, description);
-    this.clickSaveButton();
-  }
-
-  clickDeleteButton() {
-    cy.get('button, [role="button"], div[role="button"], a[role="button"], [class*="btn"]', { timeout: 4000 }).contains(/delete|remove|trash/i).click();
-  }
-
-  confirmDelete() {
-    cy.get('button, [role="button"], div[role="button"], a[role="button"], [class*="btn"]', { timeout: 4000 }).contains(/confirm|delete|yes/i).click();
-  }
-
-  deleteProject() {
-    this.clickDeleteButton();
-    this.confirmDelete();
-  }
-
-  getProjectCount() {
-    return this.getProjectsList().its("length");
+    cy.get("button", { timeout: 4000 }).contains(/edit/i).click();
   }
 
   clickMoveUp() {
-    cy.get('button, [role="button"], div[role="button"], a[role="button"], [class*="btn"], span', { timeout: 4000 }).contains(/up|move up|▲|^\s*↑|^\s*⬆/i).click();
+    cy.get("button, [role='button'], svg", { timeout: 4000 }).contains(/up|↑|move up/i).click();
   }
 
   clickMoveDown() {
-    cy.get('button, [role="button"], div[role="button"], a[role="button"], [class*="btn"], span', { timeout: 4000 }).contains(/down|move down|▼|^\s*↓|^\s*⬇/i).click();
+    cy.get("button", { timeout: 4000 }).contains(/down|↓|move down/i).click();
+  }
+
+  fillProjectForm(name: string) {
+    cy.get("input, textarea", { timeout: 4000 }).first().type(name);
+  }
+
+  getProjectCount() {
+    return this.getProjectsList().then(($items) => {
+      return $items.length;
+    });
   }
 }

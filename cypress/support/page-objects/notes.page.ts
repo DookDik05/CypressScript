@@ -1,6 +1,6 @@
 export class NotesPage {
   visitNotes() {
-    cy.visit("/notes");
+    cy.visit("/combined/note");
   }
 
   clickCreateButton() {
@@ -20,7 +20,7 @@ export class NotesPage {
   }
 
   verifyNoteSaved() {
-    cy.get("body", { timeout: 4000 }).should("contain", /saved|created|success/i);
+    cy.contains(/saved|created|success/i, { timeout: 4000 }).should("exist");
   }
 
   clickShareButton() {
@@ -45,7 +45,7 @@ export class NotesPage {
   }
 
   verifyAutoSave() {
-    cy.get("body", { timeout: 4000 }).should("contain", /saved|auto-saved|saved automatically/i);
+    cy.contains(/saved|auto-saved|saved automatically/i, { timeout: 4000 }).should("exist");
   }
 
   autoSaveNote(content: string) {

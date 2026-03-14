@@ -1,3 +1,4 @@
+/// <reference types="cypress" />
 // This file contains all fixed page object implementations for reference
 // Copy each class to its respective file
 

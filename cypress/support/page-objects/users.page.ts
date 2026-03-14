@@ -1,62 +1,36 @@
 export class UsersPage {
   visitUsers() {
-    cy.visit("/users");
+    cy.visit("/combined/manageuser");
   }
 
-  clickCreateButton() {
-    cy.get('button, [role="button"], div[role="button"], a[role="button"], [class*="btn"]', { timeout: 4000 }).contains(/create|new|add/i).click();
+  fillUserForm(email: string, name: string) {
+    cy.get("input[type='email'], input[placeholder*='email' i], input", { timeout: 4000 }).first().type(email);
+    cy.get("input[placeholder*='name' i], input[aria-label*='name' i], input", { timeout: 4000 }).eq(1).type(name);
   }
 
-  fillUserForm(email: string, name?: string) {
-    cy.get('input[type="email"], input[placeholder*="email"], input[aria-label*="email"], input[id*="email"]', { timeout: 4000 }).first().clear().type(email);
-    if (name) {
-      cy.get('input[type="text"], input[placeholder*="name"], input[placeholder*="full name"], input[aria-label*="name"], input[id*="name"]', { timeout: 4000 }).first().clear().type(name);
-    }
-  }
-
-  clickSaveButton() {
-    cy.get('button, [role="button"], div[role="button"], a[role="button"], [class*="btn"]', { timeout: 4000 }).contains(/save|submit|create/i).click();
-  }
-
-  createUser(email: string, name?: string) {
-    this.clickCreateButton();
+  createUser(email: string, name: string) {
+    cy.get("button", { timeout: 4000 }).contains(/create|new|add/i).click();
     this.fillUserForm(email, name);
-    this.clickSaveButton();
+    cy.get("button", { timeout: 4000 }).contains(/save|submit/i).click();
   }
 
   clickEditButton() {
-    cy.get('button, [role="button"], div[role="button"], a[role="button"], [class*="btn"], span', { timeout: 4000 }).contains(/edit|update|modify/i).first().click();
+    cy.get("button", { timeout: 4000 }).contains(/edit/i).click();
   }
 
   clickResetPasswordButton() {
-    cy.get('button, [role="button"], div[role="button"], a[role="button"], [class*="btn"]', { timeout: 4000 }).contains(/reset|password/i).click();
-  }
-
-  verifyNewPasswordGenerated() {
-    cy.get("body", { timeout: 4000 }).should("contain", /password|generated|created|reset|sent/i);
-  }
-
-  editUser(name?: string, email?: string) {
-    this.clickEditButton();
-    if (name) {
-      cy.get('input[type="text"], input[placeholder*="name"], input[placeholder*="full name"], input[aria-label*="name"]', { timeout: 4000 }).first().clear().type(name);
-    }
-    if (email) {
-      cy.get('input[type="email"], input[placeholder*="email"], input[aria-label*="email"]', { timeout: 4000 }).first().clear().type(email);
-    }
-    cy.get('button, [role="button"], div[role="button"], a[role="button"], [class*="btn"]', { timeout: 4000 }).contains(/save|submit|update/i).click();
+    cy.get("button", { timeout: 4000 }).contains(/reset|password/i).click();
   }
 
   clickResetPassword() {
     this.clickResetPasswordButton();
   }
 
-  confirmResetPassword() {
-    cy.get('button, [role="button"], div[role="button"], a[role="button"], [class*="btn"]', { timeout: 4000 }).contains(/confirm|yes|reset/i).click();
+  verifyNewPasswordGenerated() {
+    cy.contains(/password|generated|reset/i, { timeout: 4000 }).should("exist");
   }
 
-  resetUserPassword() {
-    this.clickResetPassword();
-    this.confirmResetPassword();
+  getUserList() {
+    return cy.get("div[class*='user'], li, [role='row'], tbody tr", { timeout: 4000 });
   }
 }

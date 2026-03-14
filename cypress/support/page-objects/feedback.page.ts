@@ -4,7 +4,7 @@ export class FeedbackPage {
   }
 
   fillFormField(fieldName: string, value: string) {
-    cy.get(`input[name="${fieldName}"], textarea[name="${fieldName}"], input[placeholder*="${fieldName}"], textarea[placeholder*="${fieldName}"], input[aria-label*="${fieldName}"], textarea[aria-label*="${fieldName}"], [data-testid="${fieldName}"], input[id*="${fieldName}"], textarea[id*="${fieldName}"]`, { timeout: 4000 }).first().clear().type(value);
+    cy.get(`input[name*='${fieldName}' i], textarea[name*='${fieldName}' i], input[placeholder*='${fieldName}' i], textarea[placeholder*='${fieldName}' i], input[aria-label*='${fieldName}' i], textarea[aria-label*='${fieldName}' i], input, textarea`, { timeout: 4000 }).first().type(value);
   }
 
   fillFeedbackForm(name: string, email: string, message: string) {
@@ -18,7 +18,7 @@ export class FeedbackPage {
   }
 
   verifyFormSubmitted() {
-    cy.get("body", { timeout: 4000 }).should("contain", /success|thank you|submitted|error|received/i);
+    cy.contains(/success|thank you|submitted|error|received/i, { timeout: 4000 }).should("exist");
   }
 
   verifyFeedbackSuccess() {

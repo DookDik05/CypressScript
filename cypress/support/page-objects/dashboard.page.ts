@@ -1,14 +1,14 @@
 export class DashboardPage {
   visitDashboard() {
-    cy.visit("/dashboard");
+    cy.visit("/combined/app/dashboard");
   }
 
   verifyDashboardElements() {
-    cy.get("body", { timeout: 8000 }).should("contain", /dashboard|summary|status|task/i);
+    cy.contains(/dashboard|summary|status|task/i, { timeout: 8000 }).should("exist");
   }
 
   verifyStatusBreakdown() {
-    cy.get("body", { timeout: 4000 }).should("contain", /status|progress|done|completed|pending/i);
+    cy.contains(/status|progress|done|completed|pending/i, { timeout: 4000 }).should("exist");
   }
 
   getStatusCount(status?: string) {
@@ -22,7 +22,7 @@ export class DashboardPage {
   }
 
   verifyTasksDisplayed() {
-    cy.get("body", { timeout: 4000 }).should("contain", /task|item|todo/i);
+    cy.contains(/task|item|todo/i, { timeout: 4000 }).should("exist");
   }
 
   verifyChartDisplayed() {

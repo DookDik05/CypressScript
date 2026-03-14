@@ -1,6 +1,6 @@
 export class ProfilePage {
   visitProfile() {
-    cy.visit("/profile");
+    cy.visit("/combined/personal-info");
   }
 
   clickEditButton() {
@@ -31,10 +31,10 @@ export class ProfilePage {
   }
 
   verifyProfileUpdated() {
-    cy.get("body", { timeout: 4000 }).should("contain", /updated|saved|success/i);
+    cy.contains(/updated|saved|success/i, { timeout: 4000 }).should("exist");
   }
 
   verifyPasswordChanged() {
-    cy.get("body", { timeout: 4000 }).should("contain", /password|changed|updated|success/i);
+    cy.contains(/password|changed|updated|success/i, { timeout: 4000 }).should("exist");
   }
 }

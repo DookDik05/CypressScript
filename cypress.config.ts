@@ -11,8 +11,9 @@ export default defineConfig({
       embeddedScreenshots: true,
       inlineAssets: true,
       saveAllAttempts: false,
-      // experimentalSessionAndOrigin: true,
-      // testIsolation: true,
+      saveJson: true,
+      overwrite: false,
+      reportDir: "cypress/reports",
     },
     specPattern: "cypress/e2e/**/*.cy.ts",
     setupNodeEvents(on) {
@@ -56,16 +57,9 @@ export default defineConfig({
     // Removed unsupported webpackConfig property
     env: {
       username: "staff@tlogical.com",
-      // password: "Gangkia5@2541",
       // This password is intentionally hardcoded for test setup only
       password: "test12345",
-      // url:"https://eat-copstg.allcorporate.net/rental/", // stg
-      // url: "https://eat-copdev.allcorporate.net/rental/", // dev
-      url: "https://eat-copdev.allcorporate.net",
-      url_login: "https://develop-staging.ekoapp.com/login", // dev ใหม่
-      // url_login: "https://dev-h1-staging.ekoapp.com", // devเก่า
-      // url_login:"https://cpall-h1.ekoapp.com", // prd
-      branch_code: "test129",
+      // branch_code: "test129",
     },
   },
 });

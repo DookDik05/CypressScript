@@ -1,0 +1,290 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 5,
+    "passes": 4,
+    "pending": 0,
+    "failures": 1,
+    "testsRegistered": 5,
+    "passPercent": 80,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false,
+    "start": "2026-03-13T19:17:31.843Z",
+    "end": "2026-03-13T19:17:56.311Z",
+    "duration": 24468
+  },
+  "results": [
+    {
+      "uuid": "35df1e7c-8be1-4d6e-b843-18eb09102e10",
+      "title": "",
+      "fullFile": "cypress\\e2e\\auth.cy.ts",
+      "file": "cypress\\e2e\\auth.cy.ts",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "72c13aff-ebe5-4c0e-a39c-b0d0e487c1a5",
+          "title": "TC-AUTH: Authentication Tests",
+          "fullFile": "cypress\\e2e\\auth.cy.ts",
+          "file": "cypress\\e2e\\auth.cy.ts",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [],
+          "suites": [
+            {
+              "uuid": "dcf8a67e-58fa-4f78-9583-a8ed733eb21d",
+              "title": "TC-AUTH-001: Login สำเร็จ",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "should login successfully with valid credentials",
+                  "fullTitle": "TC-AUTH: Authentication Tests TC-AUTH-001: Login สำเร็จ should login successfully with valid credentials",
+                  "timedOut": null,
+                  "duration": 4589,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "const loginPage = PageObjects.loginPage;\nloginPage.login(validEmail, validPassword);\n// Wait for URL to change to something that isn't /login\ncy.url({ timeout: 15000 }).should(\"not.include\", \"/login\");\ncy.url().should(\"match\", /dashboard|personal-info|combined|personal/);\n// Look for ANY indicator of a logged-in session (menu, logout, profile name, or sidebar)\ncy.get('body', { timeout: 15000 }).then(($body) => {\n    const hasLogOut = $body.text().toLowerCase().includes('logout');\n    const hasProfile = $body.find('[class*=\"avatar\"], [class*=\"profile\"], [class*=\"user\"]').length > 0;\n    const hasMenu = $body.find('[class*=\"menu\"], [class*=\"nav\"], .sidebar').length > 0;\n    expect(hasLogOut || hasProfile || hasMenu || $body.text().includes('Personal')).to.equal(true);\n});",
+                  "err": {},
+                  "uuid": "a231cae0-a45d-4779-af08-32ef61af6c1d",
+                  "parentUUID": "dcf8a67e-58fa-4f78-9583-a8ed733eb21d",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "a231cae0-a45d-4779-af08-32ef61af6c1d"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 4589,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            },
+            {
+              "uuid": "1d3711db-9842-483b-a5f3-6ed07121ae4b",
+              "title": "TC-AUTH-002: Login password ผิด",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "should show error when password is incorrect",
+                  "fullTitle": "TC-AUTH: Authentication Tests TC-AUTH-002: Login password ผิด should show error when password is incorrect",
+                  "timedOut": null,
+                  "duration": 3139,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "const loginPage = PageObjects.loginPage;\nloginPage.visitLogin();\nloginPage.enterEmail(validEmail);\nloginPage.enterPassword(\"wrongpassword\");\nloginPage.clickSignIn();\nloginPage.verifyErrorMessageDisplayed(\"Invalid email or password\");",
+                  "err": {},
+                  "uuid": "f6d11260-fa4d-401e-8c7f-c219f80bc5e2",
+                  "parentUUID": "1d3711db-9842-483b-a5f3-6ed07121ae4b",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "f6d11260-fa4d-401e-8c7f-c219f80bc5e2"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 3139,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            },
+            {
+              "uuid": "d1e87dce-348f-40de-82ab-95660a615b9a",
+              "title": "TC-AUTH-003: Show / Hide Password",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "should toggle password visibility",
+                  "fullTitle": "TC-AUTH: Authentication Tests TC-AUTH-003: Show / Hide Password should toggle password visibility",
+                  "timedOut": null,
+                  "duration": 1764,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "const loginPage = PageObjects.loginPage;\nloginPage.visitLogin();\nloginPage.enterPassword(\"testpassword\");\n// Check that password field exists\ncy.get('input[type=\"password\"]', { timeout: 4000 }).should(\"exist\");\n// Toggle to show\nloginPage.togglePasswordVisibility();\ncy.get('input[name=\"password\"]', { timeout: 4000 }).filter(':visible').should(\"have.attr\", \"type\", \"text\");\ncy.get('input[name=\"password\"]').filter(':visible').should(\"have.value\", \"testpassword\");\n// Toggle back to hide\nloginPage.togglePasswordVisibility();\ncy.get('input[name=\"password\"]', { timeout: 4000 }).filter(':visible').should(\"have.attr\", \"type\", \"password\");\ncy.get('input[name=\"password\"]').filter(':visible').should(\"have.value\", \"testpassword\");",
+                  "err": {},
+                  "uuid": "f7312593-9869-4e70-a9ad-2bf010833f0b",
+                  "parentUUID": "d1e87dce-348f-40de-82ab-95660a615b9a",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "f7312593-9869-4e70-a9ad-2bf010833f0b"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 1764,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            },
+            {
+              "uuid": "8c0f6c4d-e1bb-4a93-b328-adf04052c405",
+              "title": "TC-AUTH-004: Forgot Password Flow",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "should send reset link to email",
+                  "fullTitle": "TC-AUTH: Authentication Tests TC-AUTH-004: Forgot Password Flow should send reset link to email",
+                  "timedOut": null,
+                  "duration": 2455,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "const loginPage = PageObjects.loginPage;\nloginPage.visitForgotPassword();\nloginPage.enterEmail(validEmail);\n// More robust button selector for forgot password\ncy.get('button, [type=\"submit\"], [role=\"button\"]', { timeout: 4000 })\n    .filter(':visible')\n    .contains(/submit|send|confirm|ยืนยัน|ส่ง|reset/i)\n    .first()\n    .click({ force: true });\n// The message might take a while to appear or redirect to a success page\ncy.get(\"body\", { timeout: 15000 }).should(\"contain.text\", \"\"); // Just wait for any change\n// Use contains for a more flexible text match on the whole page\ncy.contains(/reset link|sent|ส่งลิงก์|สำเร็จ|success|confirmation|email|check/i, { timeout: 10000 }).should(\"be.visible\");",
+                  "err": {},
+                  "uuid": "9d713e6f-5e3e-4093-88e1-0de54cb49527",
+                  "parentUUID": "8c0f6c4d-e1bb-4a93-b328-adf04052c405",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "9d713e6f-5e3e-4093-88e1-0de54cb49527"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 2455,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            },
+            {
+              "uuid": "8c585811-aa24-4698-929d-6e6def0685da",
+              "title": "TC-AUTH-005: Reset Password",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "should update password successfully",
+                  "fullTitle": "TC-AUTH: Authentication Tests TC-AUTH-005: Reset Password should update password successfully",
+                  "timedOut": null,
+                  "duration": 12324,
+                  "state": "failed",
+                  "speed": null,
+                  "pass": false,
+                  "fail": true,
+                  "pending": false,
+                  "context": null,
+                  "code": "const loginPage = PageObjects.loginPage;\nloginPage.visitResetPassword();\nconst pwdSelector = 'input[type=\"password\"], input[name*=\"password\"], input[placeholder*=\"password\"], input[placeholder*=\"รหัสผ่าน\"], input[placeholder*=\"ใหม่\"]';\nconst confirmSelector = 'input[type=\"password\"], input[name*=\"password\"], input[placeholder*=\"confirm\"], input[placeholder*=\"ยืนยัน\"], input[placeholder*=\"รหัสผ่าน\"]';\ncy.get(pwdSelector, { timeout: 10000 }).first().should('be.visible').clear().type(\"newpassword123\");\n// Look for the second field specifically\ncy.get('body').then(($body) => {\n    if ($body.find('input[type=\"password\"]').length > 1) {\n        cy.get('input[type=\"password\"]').eq(1).clear().type(\"newpassword123\");\n    }\n    else {\n        cy.get(confirmSelector).last().clear().type(\"newpassword123\");\n    }\n});\ncy.get(\"button, [type='submit']\", { timeout: 4000 }).contains(/reset|submit|save|confirm|บันทึก|ยืนยัน/i).click();\ncy.get(\"body\", { timeout: 10000 }).should(\"contain\", /success|password.*updated|password.*changed|สำเร็จ|เรียบร้อย/i);",
+                  "err": {
+                    "message": "AssertionError: Timed out retrying after 10000ms: Expected to find element: `input[type=\"password\"], input[name*=\"password\"], input[placeholder*=\"password\"], input[placeholder*=\"รหัสผ่าน\"], input[placeholder*=\"ใหม่\"]`, but never found it.",
+                    "estack": "AssertionError: Timed out retrying after 10000ms: Expected to find element: `input[type=\"password\"], input[name*=\"password\"], input[placeholder*=\"password\"], input[placeholder*=\"รหัสผ่าน\"], input[placeholder*=\"ใหม่\"]`, but never found it.\n    at Context.eval (webpack://cypresslearning/./cypress/e2e/auth.cy.ts:82:9)",
+                    "diff": null
+                  },
+                  "uuid": "dd7144eb-d445-4034-bc00-70d1c73b4fe8",
+                  "parentUUID": "8c585811-aa24-4698-929d-6e6def0685da",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [],
+              "failures": [
+                "dd7144eb-d445-4034-bc00-70d1c73b4fe8"
+              ],
+              "pending": [],
+              "skipped": [],
+              "duration": 12324,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            }
+          ],
+          "passes": [],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "charts": true,
+        "reportPageTitle": "Rental Space Test",
+        "embeddedScreenshots": true,
+        "inlineAssets": true,
+        "saveAllAttempts": false,
+        "saveJson": true,
+        "overwrite": false,
+        "reportDir": "cypress\\reports\\.jsons",
+        "html": false,
+        "json": true
+      },
+      "version": "6.3.2"
+    }
+  }
+}

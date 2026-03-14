@@ -17,7 +17,7 @@
     "test:landing": "cypress run --spec 'cypress/e2e/landing.cy.ts'",
     "test:dashboard": "cypress run --spec 'cypress/e2e/dashboard.cy.ts'",
     "test:all-modules": "cypress run --spec 'cypress/e2e/*.cy.ts'",
-    "generate-report": "ts-node scripts/generate-report.ts",
+    "generate-report": "tsx scripts/generate-report.ts",
     "open-report": "start cypress/reports"
   },
   "dependencies": {
@@ -38,6 +38,7 @@
     "exceljs": "^4.4.0",
     "globals": "^16.5.0",
     "ts-node": "^10.9.0",
+    "tsx": "^4.21.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
     "vite": "^7.2.4"

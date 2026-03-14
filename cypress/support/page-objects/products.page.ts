@@ -1,6 +1,6 @@
 export class ProductsPage {
   visitProducts() {
-    cy.visit("/products");
+    cy.visit("/combined/app/products");
   }
 
   clickCreateButton() {

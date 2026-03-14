@@ -1,16 +1,16 @@
 describe("Capture page HTML for selector analysis", () => {
   const pages = [
-    { name: "dashboard", url: "/dashboard" },
-    { name: "users", url: "/users" },
-    { name: "projects", url: "/projects" },
-    { name: "tasks", url: "/tasks" },
-    { name: "daily-meeting", url: "/daily-meeting" },
+    { name: "dashboard", url: "/combined/app/dashboard" },
+    { name: "users", url: "/combined/manageuser" },
+    { name: "projects", url: "/combined/app/projects" },
+    { name: "tasks", url: "/combined/app/tasks" },
+    { name: "daily-meeting", url: "/combined/app/daily-meeting" },
     { name: "feedback", url: "/feedback" },
-    { name: "notes", url: "/notes" },
-    { name: "notifications", url: "/notifications" },
-    { name: "products", url: "/products" },
-    { name: "profile", url: "/profile" },
-    { name: "reports", url: "/reports" },
+    { name: "notes", url: "/combined/note" },
+    { name: "notifications", url: "/combined/app/notifications" },
+    { name: "products", url: "/combined/app/products" },
+    { name: "profile", url: "/combined/personal-info" },
+    { name: "reports", url: "/combined/app/reports/performance" },
     { name: "landing", url: "/" },
   ];
 

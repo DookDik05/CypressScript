@@ -1,14 +1,14 @@
 export class ReportsPage {
   visitReports() {
-    cy.visit("/reports");
+    cy.visit("/combined/app/reports/performance");
   }
 
   verifyStaffView() {
-    cy.get('[role="main"], .reports, .report-container, main, div[class*="report"], [class*="container"], [class*="wrapper"]', { timeout: 4000 }).should("be.visible");
+    cy.contains(/staff|performance|report/i, { timeout: 4000 }).should("exist");
   }
 
   verifyTeamView() {
-    cy.get('[role="main"], .reports, .report-container, main, div[class*="report"], [class*="container"], [class*="wrapper"]', { timeout: 4000 }).should("be.visible");
+    cy.contains(/team|performance|report/i, { timeout: 4000 }).should("exist");
   }
 
   editManDay(value: string) {

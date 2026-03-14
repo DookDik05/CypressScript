@@ -11,8 +11,8 @@ describe("Check for console errors", () => {
     cy.wait(1000);
     
     // Type credentials
-    cy.get('input[name="email"]').type("Praveekornchi@gosoft.co.th");
-    cy.get('input[type="password"]').type("Gangkia@2541");
+    cy.get('input[name="email"]').type("staff@tlogical.com");
+    cy.get('input[type="password"]').type("test12345");
     
     cy.wait(500);
     

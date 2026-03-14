@@ -2,10 +2,10 @@ export class AuthPage {
   loginWithEmail(email: string, password: string) {
     cy.visit("/login");
     cy.wait(500);
-    cy.get('input[name="email"], input[placeholder*="email"], input[placeholder*="Email"], input[aria-label*="email"]', { timeout: 8000 }).clear().type(email, { delay: 50 });
-    cy.get('input[name="password"], input[type="password"], input[placeholder*="password"], input[placeholder*="Password"], input[aria-label*="password"]', { timeout: 8000 }).clear().type(password, { delay: 50 });
+    cy.get('input[name="email"], input[placeholder*="email"], input[placeholder*="Email"], input[aria-label*="email"]', { timeout: 8000 }).filter(':visible').clear().type(email, { delay: 50 });
+    cy.get('input[name="password"], input[type="password"], input[placeholder*="password"], input[placeholder*="Password"], input[aria-label*="password"]', { timeout: 8000 }).filter(':visible').clear().type(password, { delay: 50 });
     cy.wait(200);
-    cy.get('button, [role="button"], div[role="button"], a[role="button"], [class*="btn"]', { timeout: 8000 }).contains(/login|sign in|enter|submit/i).click();
+    cy.get('button, [role="button"], div[role="button"], a[role="button"], [class*="btn"]', { timeout: 8000 }).filter(':visible').contains(/login|sign in|enter|submit/i).click();
   }
 
   login(email: string, password: string) {
@@ -17,11 +17,11 @@ export class AuthPage {
   }
 
   enterEmail(email: string) {
-    cy.get('input[name="email"], input[placeholder*="email"], input[placeholder*="Email"], input[aria-label*="email"]', { timeout: 8000 }).clear().type(email, { delay: 50 });
+    cy.get('input[name="email"], input[placeholder*="email"], input[placeholder*="Email"], input[aria-label*="email"]', { timeout: 8000 }).filter(':visible').clear().type(email, { delay: 50 });
   }
 
   enterPassword(password: string) {
-    cy.get('input[name="password"], input[type="password"], input[placeholder*="password"], input[placeholder*="Password"], input[aria-label*="password"]', { timeout: 8000 }).clear().type(password, { delay: 50 });
+    cy.get('input[name="password"], input[type="password"], input[placeholder*="password"], input[placeholder*="Password"], input[aria-label*="password"]', { timeout: 8000 }).filter(':visible').clear().type(password, { delay: 50 });
   }
 
   clickSignIn() {
@@ -29,16 +29,25 @@ export class AuthPage {
   }
 
   togglePasswordVisibility() {
-    // Try to find and click the password visibility toggle button
-    cy.get('button, [role="button"], svg, i', { timeout: 4000 })
-      .filter((index, el) => {
-        const text = Cypress.$(el).text();
-        const ariaLabel = Cypress.$(el).attr('aria-label') || '';
-        const title = Cypress.$(el).attr('title') || '';
-        return /show|hide|toggle|eye|visibility|password/i.test(text + ariaLabel + title);
-      })
+    // Look for the password input first to find its container
+    cy.get('input[type="password"], input[name="password"], input[type="text"][name="password"]', { timeout: 4000 })
+      .filter(':visible')
       .first()
-      .click({ force: true });
+      .parent()
+      .then(($parent) => {
+        // Search for buttons or icons within the same container
+        const $toggle = $parent.find('button, [role="button"], svg, i').filter((i, el) => {
+          const html = el.outerHTML.toLowerCase();
+          return html.includes('eye') || html.includes('visibility') || html.includes('toggle') || html.includes('show') || html.includes('hide');
+        });
+        
+        if ($toggle.length > 0) {
+          cy.wrap($toggle.first()).click({ force: true });
+        } else {
+          // Fallback: try to find any button sibling of the password field
+          cy.get('input[name="password"], input[type="password"]').filter(':visible').first().siblings('button, [role="button"]').first().click({ force: true });
+        }
+      });
   }
 
   getPasswordInputType() {
@@ -59,8 +68,9 @@ export class AuthPage {
   }
 
   visitResetPassword() {
-    cy.visit("/login");
-    cy.wait(500);
+    // Some apps use hyphen, some use underscore. My testing showed underscore might be needed with a token.
+    cy.visit("/reset_password?token=test_token");
+    cy.wait(1000);
   }
 
   submitForgotPasswordForm(email: string) {
@@ -69,13 +79,20 @@ export class AuthPage {
   }
 
   resetPassword(token: string, newPassword: string, confirmPassword: string) {
-    cy.get('input[type="password"], input[name*="password"], input[placeholder*="new"], input[placeholder*="New"]', { timeout: 4000 }).first().clear().type(newPassword);
-    cy.get('input[type="password"], input[name*="password"], input[placeholder*="confirm"], input[placeholder*="Confirm"]', { timeout: 4000 }).last().clear().type(confirmPassword);
-    cy.get('button, [role="button"], div[role="button"], [class*="btn"]', { timeout: 4000 }).contains(/reset|submit|save/i).click();
+    cy.get('input[type="password"], input[placeholder*="password"], input[placeholder*="รหัสผ่าน"]', { timeout: 8000 }).first().clear().type(newPassword);
+    cy.get('input[type="password"], input[placeholder*="confirm"], input[placeholder*="ยืนยัน"]', { timeout: 8000 }).then(($els) => {
+      if ($els.length > 1) {
+        cy.wrap($els).last().clear().type(confirmPassword);
+      } else {
+        // Try to find by index if placeholder matching didn't yield multiple
+        cy.get('input[type="password"]', { timeout: 4000 }).eq(1).clear().type(confirmPassword);
+      }
+    });
+    cy.get('button, [type="submit"]', { timeout: 4000 }).contains(/reset|submit|save|confirm|ยืนยัน|บันทึก/i).click();
   }
 
   verifyLoginSuccess() {
-    cy.url({ timeout: 8000 }).should("include", /dashboard|personal|combined/);
+    cy.url({ timeout: 8000 }).should("match", /dashboard|personal|combined/);
   }
 
   verifyErrorMessage(message: string) {
@@ -96,5 +113,3 @@ export class LoginPage extends AuthPage {
     cy.visit("/");
   }
 }
-
-

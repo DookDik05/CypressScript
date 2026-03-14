@@ -1,6 +1,6 @@
 export class NotificationsPage {
   visitNotifications() {
-    cy.visit("/notifications");
+    cy.visit("/combined/app/notifications");
   }
 
   getNotificationsList() {
